@@ -1,5 +1,14 @@
+node_modules
 .DS_Store
-node_modules/
 .env
 .env.*
+!.env.example
+
+# build output
+.output
+.nitro
+.tanstack
+dist
+
+# Claude Code local settings
 .claude/settings.local.json
