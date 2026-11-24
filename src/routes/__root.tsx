@@ -1,19 +1,17 @@
 /// <reference types="vite/client" />
 import {
   HeadContent,
+  Link,
   Outlet,
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import type { QueryClient } from '@tanstack/react-query'
 import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary'
 import { NotFound } from '~/components/NotFound'
-import { Footer, Header } from '~/components/SiteChrome'
-import { ThemeScript } from '~/components/Theme'
 import appCss from '~/styles/app.css?url'
 import { seo } from '~/lib/seo'
+import { site } from '~/lib/site'
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -22,7 +20,7 @@ export const Route = createRootRouteWithContext<{
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { name: 'theme-color', content: '#13111C' },
+      { name: 'theme-color', content: '#faf9f5' },
       ...seo({}),
     ],
     links: [
@@ -35,12 +33,9 @@ export const Route = createRootRouteWithContext<{
       },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300..800&family=JetBrains+Mono:wght@400..700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400..600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap',
       },
-      { rel: 'icon', href: '/favicon.ico' },
-      { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
-      { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
-      { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+      { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
     ],
   }),
   errorComponent: DefaultCatchBoundary,
@@ -51,17 +46,12 @@ export const Route = createRootRouteWithContext<{
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    // `dark` is the default; ThemeScript corrects it before paint if the
-    // visitor picked light mode.
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en">
       <head>
-        <ThemeScript />
         <HeadContent />
       </head>
       <body>
         {children}
-        <TanStackRouterDevtools position="bottom-right" />
-        <ReactQueryDevtools buttonPosition="bottom-left" />
         <Scripts />
       </body>
     </html>
@@ -71,11 +61,34 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 function RootLayout() {
   return (
     <div className="flex min-h-dvh flex-col">
-      <Header />
-      <main className="flex-1">
+      <header className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-4 py-5 sm:px-8">
+        <Link to="/" className="flex items-center gap-2.5 font-sans text-[17px] font-semibold tracking-[-0.02em]">
+          <Mark />
+          {site.name}
+        </Link>
+        <a href={site.repoUrl} className="btn-secondary !py-2 !text-[14px]">
+          View source
+        </a>
+      </header>
+      <main className="flex flex-1 flex-col">
         <Outlet />
       </main>
-      <Footer />
+      <footer className="mx-auto w-full max-w-[1200px] border-t px-4 py-8 font-sans text-[13px] text-fg-subtle sm:px-8">
+        © {new Date().getFullYear()} {site.name}
+      </footer>
     </div>
+  )
+}
+
+// A simple asterisk-like mark drawn from three strokes.
+function Mark() {
+  return (
+    <svg viewBox="0 0 24 24" className="size-5 text-accent" aria-hidden="true">
+      <g stroke="currentColor" strokeWidth="2.6" strokeLinecap="round">
+        <path d="M12 3v18" />
+        <path d="M4.2 7.5l15.6 9" />
+        <path d="M4.2 16.5l15.6-9" />
+      </g>
+    </svg>
   )
 }

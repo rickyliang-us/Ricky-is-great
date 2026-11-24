@@ -10,7 +10,7 @@ export default defineRailway(() => {
   const web = service("web", {
     // Railpack runs `pnpm build`; Nitro outputs a self-contained server.
     start: "node .output/server/index.mjs",
-    // Apply Drizzle migrations (and seed an empty board) before each
+    // Apply Drizzle migrations before each
     // deployment starts. If this fails, the deploy stops.
     preDeploy: "node scripts/migrate.mjs",
     // New deployments only receive traffic once this returns a 2xx.

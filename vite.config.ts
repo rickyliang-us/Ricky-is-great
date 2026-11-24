@@ -17,12 +17,8 @@ export default defineConfig({
       srcDirectory: 'src',
     }),
     viteReact(),
-    // Nitro produces a self-contained Node server in .output/ —
+    // Nitro produces a self-contained Node server in .output/;
     // Railway runs it with `node .output/server/index.mjs`.
-    nitro({
-      // Static prerendering: /features is rendered to HTML at build time and
-      // served as a static file. Everything else is server-rendered per request.
-      prerender: { routes: ['/features'], crawlLinks: false },
-    }),
+    nitro(),
   ],
 })
