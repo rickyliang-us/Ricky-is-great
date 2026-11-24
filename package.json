@@ -1,0 +1,13 @@
+{
+  "name": "ricky-is-great",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Original jokes that celebrate Ricky Liang",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
